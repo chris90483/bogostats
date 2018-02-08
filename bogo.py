@@ -1,5 +1,6 @@
 import numpy as np
 import time
+import random
 
 class Bogo:
 
@@ -24,16 +25,21 @@ class Bogo:
 		
 	def record(self, newdata):
 		#index 0 of data is for length 3
-		while len(self.data) < newdata.length:
+		while len(self.data) < newdata.length - 3:
 			self.data.append("\n")
-		self.data[newdata.length - 3] = str(newdata) + "\n"
+		self.data[newdata.length - 3] = str(newdata)
 		
 	def save(self):
-		self.data_file.truncate()
+		#wipe contents of file
+		open("bogostats.txt", 'w').close()
+		self.data_file = open("bogostats.txt", 'r+')
 		self.data_file.write("\n".join(self.data))
-	
-	def close(self):
 		self.data_file.close()
+
+	def test(self):
+		for x in range(0, 7):
+			self.record(Data(random.randint(3, 8), np.random.randint(999, size=10)))
+		self.save()
 
 class Data:
 		
