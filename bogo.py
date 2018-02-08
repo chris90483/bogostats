@@ -11,7 +11,16 @@ class Bogo:
 		self.data_file = open("bogostats.txt", "r+")
 		data_string = self.data_file.read()
 		self.data = data_string.split("\n")
-		
+
+	def do_science(self):
+		records = []
+		for x in range(3, 11):
+			for y in range(0, 100):
+				records.append(self.bogo(np.random.randint(999, size=x)))
+			self.record(Data(x, records))
+			records = []
+		self.save()
+
 	def bogo(self, arr):
 		count = 0
 		arr = np.array(arr)
@@ -21,11 +30,11 @@ class Bogo:
 			count += 1
 		
 		print("Result: It took " + str(count) + " iterations.")
-		return arr
+		return count
 		
 	def record(self, newdata):
 		#index 0 of data is for length 3
-		while len(self.data) < newdata.length - 3:
+		while len(self.data) < newdata.length - 2:
 			self.data.append("\n")
 		self.data[newdata.length - 3] = str(newdata)
 		
