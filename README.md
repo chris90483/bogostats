@@ -1,3 +1,3 @@
 # bogostats
-Bogosort Statistics
+Bogosort Statistics. <br>
 The most important project
