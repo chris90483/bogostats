@@ -1,5 +1,4 @@
 import numpy as np
-import time
 import random
 
 class Bogo:
@@ -8,9 +7,7 @@ class Bogo:
 	data = None
 
 	def __init__(self):
-		self.data_file = open("bogostats.txt", "r+")
-		data_string = self.data_file.read()
-		self.data = data_string.split("\n")
+		self.load()
 
 	def do_science(self):
 		records = []
@@ -31,8 +28,6 @@ class Bogo:
 					continue
 		else:
 			return not proper
-
-
 
 	def bogo(self, arr):
 		count = 0
@@ -58,6 +53,12 @@ class Bogo:
 		self.data_file.write("\n".join(self.data))
 		self.data_file.close()
 
+	# load data file
+	def load(self):
+		self.data_file = open("bogostats.txt", "r+")
+		data_string = self.data_file.read()
+		self.data = data_string.split("\n")
+
 	def test(self):
 		for x in range(0, 7):
 			self.record(Data(random.randint(3, 8), np.random.randint(999, size=10)))
@@ -79,4 +80,4 @@ class Data:
 			return string
 		
 		
-		
+d = Data()
