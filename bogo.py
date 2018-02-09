@@ -21,6 +21,19 @@ class Bogo:
 			records = []
 		self.save()
 
+	# the function above this one is lame and not actual science
+	def do_proper_science(self, proper: bool, sciences: int) -> bool:
+		if proper:
+			for science in range(sciences):
+				if science == 42:
+					return proper | sciences
+				elif science == False:
+					continue
+		else:
+			return not proper
+
+
+
 	def bogo(self, arr):
 		count = 0
 		arr = np.array(arr)
