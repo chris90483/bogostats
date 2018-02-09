@@ -78,6 +78,3 @@ class Data:
 			for record in self.records:
 				string += str(record) + " "
 			return string
-		
-		
-d = Data()
