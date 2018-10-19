@@ -14,7 +14,6 @@ class BogoClicker:
         np.random.shuffle(self.std_arr)
 
     # to do: trees, heaps, bubble, merge and linear?
-
     def isSorted(self, array):
         for i in range(len(array) - 1):
             if array[i+1] < array[i]:
