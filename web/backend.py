@@ -3,7 +3,7 @@ from cgi import escape
 from sys import exc_info
 from traceback import format_tb
 
-def index(environ, start_response):
+def index_temp(environ, start_response):
     """This function will be mounted on "/" and display a link
     to the hello world page."""
     start_response('200 OK', [('Content-Type', 'text/html')])
@@ -14,18 +14,27 @@ def index(environ, start_response):
 
 ''']
 
-def hello(environ, start_response):
+def js(environ, start_response):
     """Like the example above, but it uses the name specified in the
 URL."""
     # get the name from the url if it was specified there.
     args = environ['myapp.url_args']
-    if args:
-        subject = escape(args[0])
-    else:
-        subject = 'World'
     start_response('200 OK', [('Content-Type', 'text/html')])
-    body = '''Hello %(subject)s''' % {'subject': subject}
-    return [body]
+    with open('main.js', 'r') as content_file:
+        content = content_file.read()
+    print(content)
+    return [content]
+
+def index(environ, start_response):
+    """Like the example above, but it uses the name specified in the
+URL."""
+    # get the name from the url if it was specified there.
+    args = environ['myapp.url_args']
+    start_response('200 OK', [('Content-Type', 'text/html')])
+    with open('home.html', 'r') as content_file:
+        content = content_file.read()
+    print(content)
+    return [content]
 
 def not_found(environ, start_response):
     """Called if no URL matches."""
@@ -35,8 +44,7 @@ def not_found(environ, start_response):
 # map urls to functions
 urls = [
     (r'^$', index),
-    (r'hello/?$', hello),
-    (r'hello/(.+)$', hello)
+    (r'main.js/?$', js)
 ]
 
 def application(environ, start_response):
