@@ -10,6 +10,16 @@ $( document ).ready(function () {
     xmlHttpTest.send("item=something");
 });
 
+// send an xmlHttpRequest
+// type = 'GET','POST, etc.
+// path = "/buy" for example
+// contents = '{key=value}' (JSON)
+function sendRequest(type, path, contents) {
+    var xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.open(type, path);
+    xmlHttpRequest.send(contents);
+}
+
 function sort() {
     new_arr = [];
     if (currentalg === "bogo") {
