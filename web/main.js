@@ -5,6 +5,9 @@ $( document ).ready(function () {
     checkCookies();
     document.getElementById("score").innerText += " " + getProgressField("score");
     document.getElementById("array").innerText = array.toString();
+    var xmlHttpTest = new XMLHttpRequest();
+    xmlHttpTest.open("GET", "/buy");
+    xmlHttpTest.send("item=something");
 });
 
 function sort() {

@@ -1,9 +1,7 @@
 import re
-from cgi import escape
 from sys import exc_info
 from traceback import format_tb
-import urlparse
-
+import json
 
 item_list = ["blue_background"]
 
@@ -39,6 +37,25 @@ URL."""
     print(content)
     return [content]
 
+
+def give_item(environ, start_response):
+    args_str = environ['QUERY_STRING']
+    start_response('200 OK', [('Content-Type', 'application/json')])
+    print("THIS IS ARGS_STR " + args_str)
+    args = args_str.split('=')
+    response = {}
+
+    if args[0] == "item":
+        item = args[1]
+        if item in item_list:
+            response["success"] = True
+            # TODO add stuffs for checking if enough money etc.,
+            return [json.dumps(response).encode("utf-8")]
+    response["success"] = False
+    return [json.dumps(response).encode("utf-8")]
+
+
+
 def not_found(environ, start_response):
     """Called if no URL matches."""
     start_response('404 NOT FOUND', [('Content-Type', 'text/plain')])
@@ -47,8 +64,8 @@ def not_found(environ, start_response):
 # map urls to functions
 urls = [
     (r'^$', index),
-    (r'main.js/?$', js)
-    #(r'buy', buyitem)
+    (r'main.js/?$', js),
+    (r'buy', give_item)
 ]
 
 def application(environ, start_response):
@@ -60,14 +77,6 @@ def application(environ, start_response):
 
     If nothing matches call the `not_found` function.
     """
-    request_data = environ['QUERY_STRING']
-    print(request_data)
-    if request_data.startswith("buy"):
-        # do some shit here
-        item = request_data.split("=")[1]
-        if item in item_list:
-            give_item(item)
-
     path = environ.get('PATH_INFO', '').lstrip('/')
     for regex, callback in urls:
         match = re.search(regex, path)
@@ -76,9 +85,6 @@ def application(environ, start_response):
             environ['myapp.url_args'] = match.groups()
             return callback(environ, start_response)
     return not_found(environ, start_response)
-
-def give_item(item):
-    pass
 
 
 class ExceptionMiddleware(object):
