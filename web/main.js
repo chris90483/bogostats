@@ -3,11 +3,8 @@ array = [3, 2, 1, 0];
 
 $( document ).ready(function () {
     checkCookies();
-    document.getElementById("score").innerText += " " + getCookie("score");
+    document.getElementById("score").innerText += " " + getProgressField("score");
     document.getElementById("array").innerText = array.toString();
-    var xmlHttpTest = new XMLHttpRequest();
-    xmlHttpTest.open("GET", "buy?something=ayy", false);
-    xmlHttpTest.send(null);
 });
 
 function sort() {
@@ -21,9 +18,9 @@ function sort() {
 function bogosort(arr) {
     arr = shuffle(arr);
     if (sorted(arr)) {
-        var score = getCookie("score");
+        var score = getProgressField("score");
         newScore = parseInt(score) + 1;
-        setCookie("score", newScore);
+        setProgressField("score", newScore);
         document.getElementById("score").innerText = "Score: " + newScore;
     }
     return arr;
@@ -56,12 +53,18 @@ function setCookie(cname, cvalue) {
 
 // Check if the required cookies exist, if not make them
 function checkCookies() {
-    var score = getCookie("score");
-    if (score !== "") {
-        // score exists
+    var progress = getCookie("progress");
+    if (progress !== "") {
+        // progress exists
     } else {
-        setCookie("score", 0)
+        setCookie("progress", initProgress())
     }
+}
+
+function initProgress() {
+    var obj = {};
+    obj['score'] = 0;
+    return JSON.stringify(obj)
 }
 
 // Convert the cookie string into a js object, does not support arrays or nested objects.
@@ -77,6 +80,27 @@ function cookieStringToObj() {
     return obj;
 }
 
+function getProgressField(fieldName) {
+    data = JSON.parse(getCookie("progress"));
+    fields = fieldName.split(".");
+    if (fields.length === 1) { // this can be used to extend support to nested objects in JSON
+        return data[fieldName]
+    }  else {
+        return data[fieldName]
+    }
+}
+
+function setProgressField(fieldName, value) {
+    data = JSON.parse(getCookie("progress"));
+    fields = fieldName.split(".");
+    if (fields.length === 1) { // this can be used to extend support to nested objects in JSON
+        data[fieldName] = value // if this gets extends be careful that not part of cookie gets deleted
+    }  else {
+        data[fieldName] = value
+    }
+    setCookie("progress", JSON.stringify(data))
+}
+
 // Get the value of a cookie by name
 function getCookie(cname) {
     var name = cname + "=";
@@ -84,10 +108,10 @@ function getCookie(cname) {
     var ca = decodedCookie.split(';');
     for(var i = 0; i <ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
