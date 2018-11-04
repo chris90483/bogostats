@@ -5,6 +5,9 @@ $( document ).ready(function () {
     checkCookies();
     document.getElementById("score").innerText += " " + getCookie("score");
     document.getElementById("array").innerText = array.toString();
+    var xmlHttpTest = new XMLHttpRequest();
+    xmlHttpTest.open("GET", "buy?something=ayy", false);
+    xmlHttpTest.send(null);
 });
 
 function sort() {
@@ -38,7 +41,7 @@ function shuffle(a) {
 }
 
 function sorted(arr) {
-    if (arr.length == 1) {
+    if (arr.length === 1) {
         return true
     } else {
         return arr[0] < arr[1] && sorted(arr.slice(1, arr.length))

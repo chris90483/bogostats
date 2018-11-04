@@ -2,6 +2,10 @@ import re
 from cgi import escape
 from sys import exc_info
 from traceback import format_tb
+import urlparse
+
+
+item_list = ["blue_background"]
 
 def index_temp(environ, start_response):
     """This function will be mounted on "/" and display a link
@@ -22,7 +26,6 @@ URL."""
     start_response('200 OK', [('Content-Type', 'text/html')])
     with open('main.js', 'r') as content_file:
         content = content_file.read()
-    print(content)
     return [content]
 
 def index(environ, start_response):
@@ -45,6 +48,7 @@ def not_found(environ, start_response):
 urls = [
     (r'^$', index),
     (r'main.js/?$', js)
+    #(r'buy', buyitem)
 ]
 
 def application(environ, start_response):
@@ -56,13 +60,26 @@ def application(environ, start_response):
 
     If nothing matches call the `not_found` function.
     """
+    request_data = environ['QUERY_STRING']
+    print(request_data)
+    if request_data.startswith("buy"):
+        # do some shit here
+        item = request_data.split("=")[1]
+        if item in item_list:
+            give_item(item)
+
     path = environ.get('PATH_INFO', '').lstrip('/')
     for regex, callback in urls:
         match = re.search(regex, path)
+        print(environ)
         if match is not None:
             environ['myapp.url_args'] = match.groups()
             return callback(environ, start_response)
     return not_found(environ, start_response)
+
+def give_item(item):
+    pass
+
 
 class ExceptionMiddleware(object):
     """The middleware we use."""
