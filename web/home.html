@@ -3,35 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>BogoClicker</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        .store-item {
-            width : 20px;
-            height: 20px;
-        }
-
-        .store-txt {
-            text-align: center;
-            vertical-align: middle;
-        }
     </style>
 </head>
 <body>
 
-<div id="store">
-    <div id="store-items">
-        <div class="store-item">
-            <p class="store-txt">I'm an example item!</p>
+<div class="container">
+    <div class="row">
+        <div id="store" class="col-4">
+            <div id="store-items">
+                <div class="store-item">
+                    <p class="store-txt">I'm an example item!</p>
+                    <button>Buy me</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<div class="len2">
-    <div style="text-align: center;">
-        <p id="score">Score: </p>
-        <div id="array">3, 2, 1, 0</div>
-        <button onclick="sort()">Sort!</button>
+        <div id="clicker1" class="col-8">
+            <div style="text-align: center;">
+                <p id="score">Score: </p>
+                <div id="array">3, 2, 1, 0</div>
+                <button onclick="handleBtnClick()">Sort!</button>
+            </div>
+        </div>
     </div>
 </div>
 

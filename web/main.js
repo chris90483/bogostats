@@ -1,5 +1,8 @@
-currentalg = "bogo";
+slots = {};
 array = [3, 2, 1, 0];
+itemsBought = [];
+itemsAvailable =[];
+
 
 $( document ).ready(function () {
     checkCookies();
@@ -19,8 +22,36 @@ function sendRequest(type, path, contents) {
     xmlHttpRequest.open(type, path);
     xmlHttpRequest.send(contents);
 }
+function updateStore() {
+    var score = parseInt(getProgressField("score"));
+    if (score > 5) {
+        addToStore("item", "600");
+    }
+}
 
-function sort() {
+function handleBtnClick(slotNumber) {
+    sort(slotNumber);
+    if (/*some condition in the future */ true) {
+        updateStore()
+    }
+}
+
+function addToStore(itemName, price) {
+    var items = document.getElementById("store-items");
+    console.log(items)
+    var itemdiv = document.createElement("div");
+    var itemtxt = document.createElement("p");
+    var itembuy = document.createElement("button");
+    itemdiv.className = "store-item";
+    itemtxt.innerText = itemName + " cost: " + price;
+    itemtxt.appendChild(document.createElement("br"));
+    itembuy.innerText = "buy me";
+    itemdiv.appendChild(itemtxt);
+    itemdiv.appendChild(itembuy);
+    items.appendChild(itemdiv);
+}
+
+function sort(slotNumber) {
     new_arr = [];
     if (currentalg === "bogo") {
         new_arr = bogosort(array);
