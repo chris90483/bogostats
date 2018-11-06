@@ -26,6 +26,16 @@ URL."""
         content = content_file.read()
     return [content]
 
+def favicon(environ, start_response):
+    """Like the example above, but it uses the name specified in the
+URL."""
+    # get the name from the url if it was specified there.
+    args = environ['myapp.url_args']
+    start_response('200 OK', [('Content-Type', 'image/x-icon')])
+    with open('static/favicon.ico', 'r') as content_file:
+        content = content_file.read()
+    return [content]
+
 def index(environ, start_response):
     """Like the example above, but it uses the name specified in the
 URL."""
@@ -63,7 +73,8 @@ def not_found(environ, start_response):
 urls = [
     (r'^$', index),
     (r'main.js/?$', js),
-    (r'buy', give_item)
+    (r'buy', give_item),
+    (r'favicon.ico', favicon)
 ]
 
 def application(environ, start_response):
