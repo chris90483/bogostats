@@ -9,6 +9,21 @@
     <script type="text/javascript" src="main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+        @keyframes sorted {
+            from {
+                padding-bottom : 0;
+                opacity: 1;
+            }
+            to {
+                padding-bottom : 20px;
+                opacity: 0;
+            }
+        }
+        .array-solved {
+            animation-name : sorted;
+            animation-duration : 2s;
+            animation-play-state : paused;
+        }
     </style>
 </head>
 <body>
@@ -27,8 +42,8 @@
         <div id="clicker1" class="col-8">
             <div style="text-align: center;">
                 <p id="score">Score: </p>
-                <div id="array">3, 2, 1, 0</div>
-                <button onclick="handleBtnClick()">Sort!</button>
+                <div id="array1" class="array">3, 2, 1, 0</div>
+                <button onclick="handleBtnClick(1)">Sort!</button>
             </div>
         </div>
     </div>

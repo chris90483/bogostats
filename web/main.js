@@ -8,7 +8,7 @@ $( document ).ready(function () {
     checkCookies();
     fillStore();
     document.getElementById("score").innerText += " " + getProgressField("score");
-    document.getElementById("array").innerText = array.toString();
+    document.getElementById("array1").innerText = array.toString();
     var xmlHttpTest = new XMLHttpRequest();
     xmlHttpTest.open("GET", "/buy");
     xmlHttpTest.send("item=something");
@@ -60,20 +60,24 @@ function fillStore() {
 }
 
 function sort(slotNumber) {
-    new_arr = [];
-    if (currentalg === "bogo") {
-        new_arr = bogosort(array);
-    }
-    document.getElementById("array").innerText = new_arr.toString();
+    var new_arr = bogosort(array, slotNumber);
+    document.getElementById("array" + parseInt(slotNumber)).innerText = new_arr.toString();
 }
-
-function bogosort(arr) {
+function bogosort(arr, slotNumber) {
     arr = shuffle(arr);
     if (sorted(arr)) {
+        // update score
         var score = getProgressField("score");
         newScore = parseInt(score) + 1;
         setProgressField("score", newScore);
         document.getElementById("score").innerText = "Score: " + newScore;
+
+        // do CSS animation
+        var arr_duplicate = document.getElementById("array" + toString(slotNumber));
+        arr_duplicate.className = "array-solved";
+        arr_duplicate.style.animationPlayState = "running";
+
+
     }
     return arr;
 }
