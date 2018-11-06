@@ -34,14 +34,12 @@ URL."""
     start_response('200 OK', [('Content-Type', 'text/html')])
     with open('home.html', 'r') as content_file:
         content = content_file.read()
-    print(content)
     return [content]
 
 
 def give_item(environ, start_response):
     args_str = environ['QUERY_STRING']
     start_response('200 OK', [('Content-Type', 'application/json')])
-    print("THIS IS ARGS_STR " + args_str)
     args = args_str.split('=')
     response = {}
 
@@ -80,7 +78,6 @@ def application(environ, start_response):
     path = environ.get('PATH_INFO', '').lstrip('/')
     for regex, callback in urls:
         match = re.search(regex, path)
-        print(environ)
         if match is not None:
             environ['myapp.url_args'] = match.groups()
             return callback(environ, start_response)

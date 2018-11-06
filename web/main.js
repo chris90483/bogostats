@@ -6,6 +6,7 @@ itemsAvailable =[];
 
 $( document ).ready(function () {
     checkCookies();
+    fillStore();
     document.getElementById("score").innerText += " " + getProgressField("score");
     document.getElementById("array").innerText = array.toString();
     var xmlHttpTest = new XMLHttpRequest();
@@ -49,6 +50,13 @@ function addToStore(itemName, price) {
     itemdiv.appendChild(itemtxt);
     itemdiv.appendChild(itembuy);
     items.appendChild(itemdiv);
+}
+
+function fillStore() {
+    var items = getProgressField("itemsAvailable");
+    for (var i = 0; i < items.length; i++) {
+        addToStore(items[i]['itemName'], items[i]['price'])
+    }
 }
 
 function sort(slotNumber) {
@@ -108,6 +116,8 @@ function checkCookies() {
 function initProgress() {
     var obj = {};
     obj['score'] = 0;
+    obj['itemsBought'] = [];
+    obj['itemsAvailable'] = [];
     return JSON.stringify(obj)
 }
 
