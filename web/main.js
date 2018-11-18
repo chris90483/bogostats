@@ -25,16 +25,14 @@ function sendRequest(type, path, contents) {
     xmlHttpRequest.send(contents);
 }
 function updateStore() {
-    var score = parseInt(getProgressField("score"));
-    if (score > 5) {
-        addToStore("item", "600");
-    }
+    //TODO: something in the future
+    return null;
 }
 
 function handleBtnClick(slotNumber) {
     sort(slotNumber);
-    if (/*some condition in the future */ true) {
-        updateStore()
+    if (/*TODO: some condition in the future */ true) {
+        updateStore();
     }
 }
 
@@ -101,6 +99,7 @@ function sort(slotNumber) {
     var new_arr = bogosort(arrays[slotNumber], slotNumber);
     document.getElementById("array" + parseInt(slotNumber)).innerText = new_arr.toString();
 }
+
 function bogosort(arr, slotNumber) {
     arr = shuffle(arr);
     if (sorted(arr)) {
@@ -111,13 +110,28 @@ function bogosort(arr, slotNumber) {
         document.getElementById("score").innerText = "Score: " + newScore;
 
         // do CSS animation
-        var arr_duplicate = document.getElementById("array" + toString(slotNumber));
+        var arr_duplicate = document.getElementById("array" + 1).cloneNode(true);
+        arr_duplicate.setAttribute("style", "");
+        arr_duplicate.style.position = "fixed";
+        var offsets = getAbsoluteElemOffsets(document.getElementById("array" + slotNumber));
+        arr_duplicate.style.top = offsets[0] + "px";
+        arr_duplicate.style.left = (1.65 * offsets[1]) + "px";
+        arr_duplicate.style.textAlign = "center";
+        document.getElementById("slot" + slotNumber).children[0].appendChild(arr_duplicate);
         arr_duplicate.className = "array-solved";
-        arr_duplicate.style.animationPlayState = "running";
-
-
+        setTimeout(function() {
+            var toRemove = document.getElementsByClassName("array-solved");
+            for (var i = 0; i < toRemove.length; i++) {
+                document.getElementById("slot" + slotNumber).children[0].removeChild(toRemove[i]);
+            }
+        }, 2000);
     }
     return arr;
+}
+
+function getAbsoluteElemOffsets(elem) {
+    var pos = $( '#' + elem.id.toString() ).offset();
+    return [pos.top, pos.left];
 }
 
 function shuffle(a) {
@@ -132,7 +146,7 @@ function shuffle(a) {
 }
 
 function sorted(arr) {
-    if (arr.length === 1) {
+    if (arr.length < 2) {
         return true
     } else {
         return arr[0] < arr[1] && sorted(arr.slice(1, arr.length))
