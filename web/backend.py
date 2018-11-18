@@ -32,7 +32,7 @@ URL."""
     # get the name from the url if it was specified there.
     args = environ['myapp.url_args']
     start_response('200 OK', [('Content-Type', 'image/x-icon')])
-    with open('static/favicon.ico', 'r') as content_file:
+    with open('static/favicon.png', 'r') as content_file:
         content = content_file.read()
     return [content]
 
