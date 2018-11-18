@@ -1,5 +1,5 @@
 slots = {};
-array = [3, 2, 1, 0];
+arrays = [];
 itemsBought = [];
 itemsAvailable =[];
 
@@ -7,8 +7,9 @@ itemsAvailable =[];
 $( document ).ready(function () {
     checkCookies();
     fillStore();
+    fillSlots();
     document.getElementById("score").innerText += " " + getProgressField("score");
-    document.getElementById("array1").innerText = array.toString();
+    // document.getElementById("array1").innerText = array.toString();
     var xmlHttpTest = new XMLHttpRequest();
     xmlHttpTest.open("GET", "/buy");
     xmlHttpTest.send("item=something");
@@ -39,7 +40,7 @@ function handleBtnClick(slotNumber) {
 
 function addToStore(itemName, price) {
     var items = document.getElementById("store-items");
-    console.log(items)
+    console.log(items);
     var itemdiv = document.createElement("div");
     var itemtxt = document.createElement("p");
     var itembuy = document.createElement("button");
@@ -52,6 +53,26 @@ function addToStore(itemName, price) {
     items.appendChild(itemdiv);
 }
 
+function addToSlots(item) {
+    var items = document.getElementById("slots");
+    console.log(items);
+    var itemdiv = document.createElement("div");
+    itemdiv.style = "text-align: center";
+    itemdiv.id = "slot" + item['slotId'];
+    var itemarrdiv = document.createElement("div");
+    itemarrdiv.id = "array" + item['slotId'];
+    itemarrdiv.class = "array";
+    var itemsort = document.createElement("button");
+    itemsort.onclick = function(){
+        handleBtnClick(item['slotId'])
+    };
+    itemsort.innerText = "Sort!";
+    itemdiv.appendChild(itemarrdiv);
+    itemdiv.appendChild(itemsort);
+    items.appendChild(itemdiv);
+
+}
+
 function fillStore() {
     var items = getProgressField("itemsAvailable");
     for (var i = 0; i < items.length; i++) {
@@ -59,8 +80,31 @@ function fillStore() {
     }
 }
 
+function fillSlots() {
+    var items = getProgressField("slots");
+    for (var i = 0; i < items.length; i++) {
+        addToSlots(items[i]);
+        var array = document.getElementById("array" + items[i]['slotId']);
+        arrays[i] = generateArray(items[i]['length']);
+        console.log("hierrrr" + arrays[i]);
+        array.innerText = arrays[i];
+    }
+}
+
+function generateArray(length) {
+    var result = [];
+    for (var i = 0; i < length; i++) {
+        result[i] = i;
+    }
+    console.log(result);
+    return shuffle(result);
+}
+
+
 function sort(slotNumber) {
-    var new_arr = bogosort(array, slotNumber);
+    console.log(slotNumber);
+    console.log(arrays[slotNumber]);
+    var new_arr = bogosort(arrays[slotNumber], slotNumber);
     document.getElementById("array" + parseInt(slotNumber)).innerText = new_arr.toString();
 }
 function bogosort(arr, slotNumber) {
@@ -122,6 +166,12 @@ function initProgress() {
     obj['score'] = 0;
     obj['itemsBought'] = [];
     obj['itemsAvailable'] = [];
+    obj['slots'] = [];
+    var initSlot = {};
+    initSlot['length'] = 4;
+    initSlot['slotId'] = 0;
+    initSlot['algo'] = "bogosort";
+    obj['slots'][0] = initSlot;
     return JSON.stringify(obj)
 }
 
