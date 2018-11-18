@@ -40,7 +40,6 @@ function handleBtnClick(slotNumber) {
 
 function addToStore(itemName, price) {
     var items = document.getElementById("store-items");
-    console.log(items);
     var itemdiv = document.createElement("div");
     var itemtxt = document.createElement("p");
     var itembuy = document.createElement("button");
@@ -55,7 +54,6 @@ function addToStore(itemName, price) {
 
 function addToSlots(item) {
     var items = document.getElementById("slots");
-    console.log(items);
     var itemdiv = document.createElement("div");
     itemdiv.style = "text-align: center";
     itemdiv.id = "slot" + item['slotId'];
@@ -86,7 +84,6 @@ function fillSlots() {
         addToSlots(items[i]);
         var array = document.getElementById("array" + items[i]['slotId']);
         arrays[i] = generateArray(items[i]['length']);
-        console.log("hierrrr" + arrays[i]);
         array.innerText = arrays[i];
     }
 }
@@ -96,14 +93,11 @@ function generateArray(length) {
     for (var i = 0; i < length; i++) {
         result[i] = i;
     }
-    console.log(result);
     return shuffle(result);
 }
 
 
 function sort(slotNumber) {
-    console.log(slotNumber);
-    console.log(arrays[slotNumber]);
     var new_arr = bogosort(arrays[slotNumber], slotNumber);
     document.getElementById("array" + parseInt(slotNumber)).innerText = new_arr.toString();
 }
