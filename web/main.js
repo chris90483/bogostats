@@ -50,21 +50,33 @@ function addToStore(itemName, price) {
     items.appendChild(itemdiv);
 }
 
+// Ugly method
 function addToSlots(item) {
     var items = document.getElementById("slots");
     var itemdiv = document.createElement("div");
+    var itemrowdiv = document.createElement("div");
+    itemrowdiv.className = "row";
     itemdiv.style = "text-align: center";
     itemdiv.id = "slot" + item['slotId'];
     var itemarrdiv = document.createElement("div");
+    var itemarrdivcol = document.createElement("div");
+    // This defines breedte of the arrdivcol-thing
+    itemarrdivcol.className = "col-8";
     itemarrdiv.id = "array" + item['slotId'];
-    itemarrdiv.class = "array";
+    itemarrdiv.className = "array";
+    itemarrdivcol.appendChild(itemarrdiv);
     var itemsort = document.createElement("button");
+    var itemsortcol = document.createElement("div");
+    itemsortcol.className = "col-4";
     itemsort.onclick = function(){
         handleBtnClick(item['slotId'])
     };
+    //TODO: Add name of sorting algorithm
     itemsort.innerText = "Sort!";
-    itemdiv.appendChild(itemarrdiv);
-    itemdiv.appendChild(itemsort);
+    itemsortcol.appendChild(itemsort);
+    itemrowdiv.appendChild(itemsortcol);
+    itemrowdiv.appendChild(itemarrdivcol);
+    itemdiv.appendChild(itemrowdiv);
     items.appendChild(itemdiv);
 
 }
